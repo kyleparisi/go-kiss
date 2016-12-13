@@ -5,5 +5,5 @@ go run get-google.go
 ```
 
 ```bash
-git checkout mock
+git checkout test
 ```
