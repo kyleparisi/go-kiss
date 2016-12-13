@@ -1,9 +1,9 @@
 # Go-kiss
 
 ```bash
-go run hello.go
+go run get-google.go
 ```
 
 ```bash
-git checkout get-google
+git checkout mock
 ```
