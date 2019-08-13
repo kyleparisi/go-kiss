@@ -49,7 +49,7 @@ func TestHandleLoginDetailed(t *testing.T)  {
 		Host:       u.Host,
 	}
 	// ResponseRecorder's body is a memory buffer
-	// An actual http.Response body is an io.ReadCloser
+	// An actual http.ResponseWriter body is an io.ReadCloser
 	res := &httptest.ResponseRecorder{
 		Body:      new(bytes.Buffer),
 		Code:      200,
