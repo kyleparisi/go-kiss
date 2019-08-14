@@ -40,8 +40,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request, _ httprouter.Params)  {
 			loginError.Errors.Password = "Please provide a password"
 		}
 		w.WriteHeader(400)
-		response, _ := json.Marshal(loginError)
-		_, _ = w.Write(response)
+		_ = json.NewEncoder(w).Encode(loginError)
 		return
 	}
 }
