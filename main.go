@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/mail"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -39,6 +40,16 @@ func handleLogin(w http.ResponseWriter, r *http.Request, _ httprouter.Params)  {
 		if !hasPassword {
 			loginError.Errors.Password = "Please provide a password"
 		}
+		w.WriteHeader(400)
+		_ = json.NewEncoder(w).Encode(loginError)
+		return
+	}
+	_, err := mail.ParseAddress(m.Email)
+	if err != nil {
+		loginError := LoginError{Errors: struct {
+			Email string `json:"email"`
+			Password string `json:"password"`
+		}{Email: "Not a valid email address", Password: ""}}
 		w.WriteHeader(400)
 		_ = json.NewEncoder(w).Encode(loginError)
 		return
