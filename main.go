@@ -40,6 +40,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request, _ httprouter.Params)  {
 		if !hasPassword {
 			loginError.Errors.Password = "Please provide a password"
 		}
+		log.Printf("handleLogin: %+v", loginError)
 		w.WriteHeader(400)
 		_ = json.NewEncoder(w).Encode(loginError)
 		return
@@ -51,6 +52,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request, _ httprouter.Params)  {
 			Email string `json:"email"`
 			Password string `json:"password"`
 		}{Email: "Not a valid email address", Password: ""}}
+		log.Printf("handleLogin: %+v", loginError)
 		w.WriteHeader(400)
 		_ = json.NewEncoder(w).Encode(loginError)
 		return
