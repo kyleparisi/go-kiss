@@ -44,6 +44,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request, _ httprouter.Params)  {
 		_ = json.NewEncoder(w).Encode(loginError)
 		return
 	}
+	// Email validation
 	_, err := mail.ParseAddress(m.Email)
 	if err != nil {
 		loginError := LoginError{Errors: struct {
