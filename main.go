@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -8,6 +9,7 @@ import (
 	"net/mail"
 
 	"github.com/julienschmidt/httprouter"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type Login struct {
@@ -56,6 +58,22 @@ func handleLogin(w http.ResponseWriter, r *http.Request, _ httprouter.Params)  {
 		w.WriteHeader(400)
 		_ = json.NewEncoder(w).Encode(loginError)
 		return
+	}
+	// Check for existing user
+	database, _ := sql.Open("sqlite3", "./application.db")
+	var (
+		id int
+		firstname string
+		lastname string
+	)
+	err = database.QueryRow("SELECT id, firstname, lastname FROM `users` where email = ? limit 1", m.Email).Scan(&id, &firstname, &lastname)
+	if err != nil {
+		result := struct {
+			Invalid string `json:"invalid"`
+		}{Invalid: "Email or password is incorrect"}
+		log.Printf("handleLogin: %+v", result)
+		w.WriteHeader(400)
+		_ = json.NewEncoder(w).Encode(result)
 	}
 }
 
