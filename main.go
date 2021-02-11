@@ -3,10 +3,12 @@ package main
 // reference: https://medium.com/@zach_4342/dependency-injection-in-golang-e587c69478a8#.3eu1gzfam
 
 import (
-	"fmt"
-	"net/http"
 	"flag"
+	"fmt"
 	"io/ioutil"
+	"net/http"
+	"os"
+	"strings"
 )
 
 type HttpClient interface {
@@ -18,8 +20,11 @@ var (
 )
 
 func init() {
-	flag.StringVar(&url, "url", "http://google.com", "Of which URL should we print the response?")
-	flag.Parse()
+	isTest := strings.HasSuffix(os.Args[0], ".test")
+	if !isTest {
+		flag.StringVar(&url, "url", "http://google.com", "Of which URL should we print the response?")
+		flag.Parse()
+	}
 }
 
 func main() {

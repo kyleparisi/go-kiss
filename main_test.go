@@ -1,10 +1,10 @@
 package main
 
 import (
-	"testing"
-	"net/http"
-	"io/ioutil"
 	"bytes"
+	"io/ioutil"
+	"net/http"
+	"testing"
 )
 
 type MockHttpClient struct {}
